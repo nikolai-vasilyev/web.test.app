@@ -35,12 +35,6 @@ jobs:
     needs: [ build ]
     runs-on: ubuntu-latest  
     steps:
-      
-      - name: Install Kubectl
-        uses: azure/setup-kubectl@v3
-        env:
-          KUBECONFIG: ${{ secrets.KUBECONFIG }}
-
-      
+            
       - name: Deploying
-        run: kubectl --kubeconfig="$KUBECONFIG" kubectl set image deployment/web-test-app test-app=${{ env.NEW_IMAGE_NAME }}
+        run: kubectl --kubeconfig=${{ secrets.KUBECONFIG }} kubectl set image deployment/web-test-app test-app=${{ env.NEW_IMAGE_NAME }}
