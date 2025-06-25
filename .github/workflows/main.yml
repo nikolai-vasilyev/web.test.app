@@ -28,3 +28,15 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKER_USER }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}
+  deploy:
+    needs: [ build ]
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Setup Cluster Authentication
+        run: cat ${{ secrets.KUBECONFIG }} > /tmp/kubeconfig
+      
+      - name: Deploying
+        run: kubectl --kubeconfig=/tmp/kubeconfig -n ${{ secrets.NAME_SPACE }} patch deployment web-test-app --patch "{"spec": {"template": {"spec": {"containers": [{"name": "test-app", "image": "${{ secrets.DOCKER_USER }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}"}]}}}}"
