@@ -35,6 +35,9 @@ jobs:
     needs: [ build ]
     runs-on: ubuntu-latest  
     steps:
+      - uses: actions/checkout@v3
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Version k8s
         uses: azure/setup-kubectl@v3
         with:
@@ -47,4 +50,4 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: Deploying
-        run: kubectl kubectl set image deployment/web-test-app test-app=${{ env.NEW_IMAGE_NAME }}
+        run: kubectl kubectl set image deployment/web-test-app test-app=nikolaivasilyev/web.test.app:${{ env.RELEASE_VERSION }}
