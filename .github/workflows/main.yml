@@ -28,10 +28,14 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKER_USER }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}
+
+      - name: new_name
+        run: echo "NEW_IMAGE_NAME=${{ secrets.DOCKER_USER }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}" >> $GITHUB_ENV
   deploy:
     needs: [ build ]
     runs-on: ubuntu-latest  
     steps:
+      
       - name: Install Kubectl
         uses: azure/setup-kubectl@v3
 
@@ -39,4 +43,4 @@ jobs:
         run: cat ${{ secrets.KUBECONFIG }} > /tmp/kubeconfig
       
       - name: Deploying
-        run: kubectl --kubeconfig=/tmp/kubeconfig -n ${{ secrets.NAME_SPACE }} patch deployment web-test-app --patch "{"spec": {"template": {"spec": {"containers": [{"name": "test-app", "image": "${{ secrets.DOCKER_USER }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}"}]}}}}"
+        run: kubectl --kubeconfig=/tmp/kubeconfig kubectl set image deployment/web-test-app test-app=${{ env.NEW_IMAGE_NAME }}
