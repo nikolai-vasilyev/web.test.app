@@ -30,4 +30,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}
+          tags: nikolaivasilyev/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}
