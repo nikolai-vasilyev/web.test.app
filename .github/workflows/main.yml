@@ -38,10 +38,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Version k8s
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'v1.33.2'
+
 
       - name: Set Kubeconfig Context
         uses: azure/k8s-set-context@v3
@@ -49,5 +46,9 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBECONFIG }}
 
+      - name: Version k8s
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.33.2'
       - name: Deploying
         run: kubectl kubectl set image deployment/web-test-app test-app=nikolaivasilyev/web.test.app:${{ env.RELEASE_VERSION }}
