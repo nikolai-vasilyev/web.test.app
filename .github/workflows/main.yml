@@ -35,6 +35,11 @@ jobs:
     needs: [ build ]
     runs-on: ubuntu-latest  
     steps:
+      - name: Version k8s
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.33.2'
+
       - name: Set Kubeconfig Context
         uses: azure/k8s-set-context@v3
         with:
