@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,9 +22,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Run a script  
-        run: ./date.sh 
 
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v4
