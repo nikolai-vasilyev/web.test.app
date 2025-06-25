@@ -50,5 +50,6 @@ jobs:
         uses: azure/setup-kubectl@v3
         with:
           version: '1.33.2'
+          
       - name: Deploying
         run: kubectl kubectl set image deployment/web-test-app test-app=nikolaivasilyev/web.test.app:${{ env.RELEASE_VERSION }}
