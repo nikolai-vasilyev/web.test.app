@@ -38,9 +38,9 @@ jobs:
       
       - name: Install Kubectl
         uses: azure/setup-kubectl@v3
+        env:
+          KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
-      - name: Setup Cluster Authentication
-        run: cat ${{ secrets.KUBECONFIG }} > /tmp/kubeconfig
       
       - name: Deploying
-        run: kubectl --kubeconfig=/tmp/kubeconfig kubectl set image deployment/web-test-app test-app=${{ env.NEW_IMAGE_NAME }}
+        run: kubectl --kubeconfig=$KUBECONFIG kubectl set image deployment/web-test-app test-app=${{ env.NEW_IMAGE_NAME }}
