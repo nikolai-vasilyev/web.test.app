@@ -52,4 +52,4 @@ jobs:
           version: 'v1.33.2'
 
       - name: Deploying
-        run: kubectl set image deployment/web-test-app test-app=nikolaivasilyev/web.test.app:${{ env.RELEASE_VERSION }}
+        run: kubectl set image -n ${{ secrets.NAME_SPACE }} deployment/web-test-app test-app=nikolaivasilyev/web.test.app:${{ env.RELEASE_VERSION }}
