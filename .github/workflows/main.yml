@@ -38,7 +38,7 @@ jobs:
   deploy:
     needs: [ build ]
     runs-on: ubuntu-latest 
-    if: contains(github.head_ref_name, 'v*.*.*')
+    if: ${{ github.event.head_commit }} == 'true' !contains(github.head_ref_name, 'v*.*.*')
     steps:
       - uses: actions/checkout@v3
       - name: Set env
