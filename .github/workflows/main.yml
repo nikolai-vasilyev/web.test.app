@@ -36,8 +36,8 @@ jobs:
       - name: new_name
         run: echo "NEW_IMAGE_NAME=${{ secrets.DOCKER_USER }}/${{ github.event.repository.name }}:${{ env.RELEASE_VERSION }}" >> $GITHUB_ENV
   deploy:
-    if: contains(github.ref_name, 'v*.*.*')
     needs: [ build ]
+    if: '!contains(github.head_ref_name, "v*.*.*")'
     runs-on: ubuntu-latest 
     steps:
       - uses: actions/checkout@v3
