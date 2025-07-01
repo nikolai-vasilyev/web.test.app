@@ -18,8 +18,7 @@ jobs:
       - name: Set env
         run: |
           LATEST_TAG=$(git tag | sort --version-sort | tail -n1)
-          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
-
+          echo "latest_tag=$LATEST_TAG"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
