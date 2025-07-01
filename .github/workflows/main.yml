@@ -24,7 +24,7 @@ jobs:
       - name: Set env
         id: get-latest
         run: |
-          LATEST_TAG=$(git for-each-ref --sort=-taggerdate --count=1 --format '%(tag)' refs/tags)
+          LATEST_TAG=$(git describe --tags --abbrev=0 2> /dev/null)
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
