@@ -14,7 +14,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Важно для получения всех тегов
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: ${{ github.ref }}
+          repository: ${{ github.repository }}
+      - uses: actions/checkout@v3
       - name: Set env
         id: get-latest
         run: |
